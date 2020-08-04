@@ -31,7 +31,7 @@ services:
 
   casepro-http:
     build: .
-    image: docker.io/psycho/casepro
+    image: psychomantys/casepro
     ports:
      - "8000:8000"
      - "8001:8001"
