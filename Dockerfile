@@ -10,7 +10,7 @@ COPY . /app
 # instalar dependencias
 RUN pip install -r pip-freeze.txt
 RUN apt-get update \
- && apt-get install -y node-less coffeescript
+ && apt-get install -y node-less coffeescript netcat
 
 RUN cp casepro/settings.py.docker casepro/settings.py
 

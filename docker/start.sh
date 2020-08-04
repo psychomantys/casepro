@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-until nc -z ${POSTGRES_HOST}:${POSTGRES_PORT}; do
+until nc -z "${POSTGRES_HOST}" "${POSTGRES_PORT}" ; do
 	echo "Waiting for ${POSTGRES_HOST}:${POSTGRES_PORT}"
 	sleep 2
 done
