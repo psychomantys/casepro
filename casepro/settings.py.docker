@@ -1,0 +1,51 @@
+# import our default settings
+from casepro.settings_common import *  # noqa
+
+ALLOWED_HOSTS = ["*"]
+
+# INSTALLED_APPS = INSTALLED_APPS + ('debug_toolbar.apps.DebugToolbarConfig',)
+# MIDDLEWARE_CLASSES += ('debug_toolbar.middleware.DebugToolbarMiddleware',)
+
+DEBUG = True
+
+HOSTNAME = "0.0.0.0:8000"
+
+SITE_API_HOST = "http://localhost:8001/"
+
+POSTGRES_HOST = os.environ.get('POSTGRES_HOST', "casepro-postgres")
+POSTGRES_PORT = os.environ.get('POSTGRES_PORT', "5432")
+POSTGRES_PASSWORD = os.environ.get('POSTGRES_PASSWORD', "nyaruka")
+POSTGRES_USER = os.environ.get('POSTGRES_USER', 'casepro')
+POSTGRES_DB_NAME = os.environ.get('POSTGRES_DB_NAME', 'casepro')
+
+REDIS_HOST = os.environ.get('REDIS_HOST', "casepro-redis")
+REDIS_PORT = os.environ.get('REDIS_PORT', 6379)
+REDIS_PASSWORD = os.environ.get('REDIS_PASSWORD', '')
+
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": POSTGRES_DB_NAME,
+        "USER": POSTGRES_USER,
+        "PASSWORD": POSTGRES_PASSWORD,
+        "HOST": POSTGRES_HOST,
+        "PORT": POSTGRES_PORT,
+        "ATOMIC_REQUESTS": True,
+        "OPTIONS": {},
+    }
+}
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+		"LOCATION": f"redis://:{REDIS_PASSWORD}@{REDIS_HOST}:{REDIS_PORT}/15",
+        "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
+    }
+}
+
+# -----------------------------------------------------------------------------------
+# Django-celery
+# -----------------------------------------------------------------------------------
+BROKER_URL = f"redis://:{REDIS_PASSWORD}@{REDIS_HOST}:{REDIS_PORT}/%d" % (10 if TESTING else 15)
+CELERY_RESULT_BACKEND = None  # task results are stored internally
+
