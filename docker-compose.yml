@@ -11,8 +11,8 @@ services:
       POSTGRES_DB: ${POSTGRES_DB_NAME}
     expose:
       - "${POSTGRES_PORT}"
-    command: -p "${POSTGRES_PORT}"
     restart: always
+    command: -p "${POSTGRES_PORT}"
 #    networks:
 #      - casepro-backend
 
@@ -56,6 +56,7 @@ services:
 
   casepro-celery-celery:
     build: .
+    image: psychomantys/casepro
     command: celery worker -A casepro -Q celery -B -n casepro.celery --loglevel=INFO
     restart: always
     depends_on:
@@ -74,6 +75,7 @@ services:
 
   casepro-celery-sync:
     build: .
+    image: psychomantys/casepro
     command: celery worker -A casepro -Q sync -n casepro.sync --loglevel=INFO
     restart: always
     depends_on:
