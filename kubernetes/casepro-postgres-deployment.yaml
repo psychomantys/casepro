@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f - -v -o kubernetes/
+    kompose.version: 1.21.0 (992df58d8)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: casepro-postgres
+  name: casepro-postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: casepro-postgres
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f - -v -o kubernetes/
+        kompose.version: 1.21.0 (992df58d8)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: casepro-postgres
+    spec:
+      containers:
+      - env:
+        - name: POSTGRES_DB
+          value: casepro
+        - name: POSTGRES_PASSWORD
+          value: nyaruka
+        - name: POSTGRES_PORT
+          value: "5432"
+        - name: POSTGRES_USER
+          value: casepro
+        image: postgres
+        imagePullPolicy: ""
+        name: casepro-postgres
+        ports:
+        - containerPort: 5432
+        resources: {}
+      restartPolicy: Always
+      serviceAccountName: ""
+      volumes: null
+status: {}

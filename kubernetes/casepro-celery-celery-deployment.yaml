@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f - -v -o kubernetes/
+    kompose.version: 1.21.0 (992df58d8)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: casepro-celery-celery
+  name: casepro-celery-celery
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: casepro-celery-celery
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f - -v -o kubernetes/
+        kompose.version: 1.21.0 (992df58d8)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: casepro-celery-celery
+    spec:
+      containers:
+      - args:
+        - celery
+        - worker
+        - -A
+        - casepro
+        - -Q
+        - celery
+        - -B
+        - -n
+        - casepro.celery
+        - --loglevel=INFO
+        env:
+        - name: POSTGRES_DB_NAME
+          value: casepro
+        - name: POSTGRES_HOST
+          value: casepro-postgres
+        - name: POSTGRES_PASSWORD
+          value: nyaruka
+        - name: POSTGRES_PORT
+          value: "5432"
+        - name: POSTGRES_USER
+          value: casepro
+        - name: REDIS_HOST
+          value: casepro-redis
+        - name: REDIS_PASSWORD
+          value: asdaSDeEEEK
+        - name: REDIS_PORT
+          value: "6379"
+        image: psychomantys/casepro
+        imagePullPolicy: ""
+        name: casepro-celery-celery
+        resources: {}
+      restartPolicy: Always
+      serviceAccountName: ""
+      volumes: null
+status: {}
